@@ -53,13 +53,32 @@ class TodoTest extends TestCase
     $this->assertEquals($todo->get_all(), $todos_mock);
   }
 
+  public function test_create()
+  {
+    $data_mock = [
+      'body' => 'body',
+      'status' => 'status',
+      'assigned' => 'assigned_to'
+    ];
+
+    $stmt_mock = $this->createMock(PDOStatement::class);
+    $stmt_mock->expects($this->once())->method('execute')->willReturn(true);
+
+    $pdo_mock = $this->createMock(PDO::class);
+    $pdo_mock->expects($this->once())->method('prepare')->willReturn($stmt_mock);
+
+    $todo = new Todo($pdo_mock);
+
+    $this->assertTrue($todo->create($data_mock));
+  }
+
   public function test_update()
   {
     $data_mock = [
       'id' => 'id',
       'body' => 'body',
       'status' => 'status',
-      'assigned_to' => 'assigned_to'
+      'assigned' => 'assigned_to'
     ];
 
     $stmt_mock = $this->createMock(PDOStatement::class);
@@ -87,7 +106,7 @@ class TodoTest extends TestCase
 
     $todo = new Todo($pdo_mock);
 
-    $this->assertNull($todo->update($data_mock));
+    $this->assertFalse($todo->update($data_mock));
   }
 
   public function test_delete()

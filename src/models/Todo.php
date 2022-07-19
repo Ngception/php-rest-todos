@@ -39,6 +39,33 @@ class Todo
     return $todos;
   }
 
+  public function create($data)
+  {
+    $allowed_fields = [
+      0 => 'body',
+      1 => 'status',
+      2 => 'assigned'
+    ];
+
+    $query = "INSERT INTO {$this->table} (body, status, assigned_to)
+    VALUES (:body, :status, :assigned)";
+
+    $stmt = $this->connection->prepare($query);
+
+    $sanitized_data = $this->sanitize_input_data($data);
+    $fields_are_valid = $this->validate_input_fields($sanitized_data, $allowed_fields);
+
+    if (!$fields_are_valid) {
+      return false;
+    }
+
+    if ($stmt->execute($sanitized_data)) {
+      return true;
+    }
+
+    return false;
+  }
+
   public function update($data)
   {
     $allowed_fields = [
@@ -48,30 +75,18 @@ class Todo
       3 => 'assigned_to'
     ];
 
-    $valid_data = false;
-
     $query = "UPDATE {$this->table} SET status = :status WHERE id = :id";
 
     $stmt = $this->connection->prepare($query);
 
-    $fields = array();
+    $sanitized_data = $this->sanitize_input_data($data);
+    $fields_are_valid = $this->validate_input_fields($sanitized_data, $allowed_fields);
 
-    foreach ($data as $key => $value) {
-      if (!in_array($key, $allowed_fields)) {
-        $valid_data = false;
-        return;
-      }
-
-      $fields[$key] = htmlspecialchars(strip_tags($value));
-
-      $valid_data = true;
-    }
-
-    if (!$valid_data) {
+    if (!$fields_are_valid) {
       return false;
     }
 
-    if ($stmt->execute($fields)) {
+    if ($stmt->execute($sanitized_data)) {
       return true;
     }
 
@@ -93,5 +108,27 @@ class Todo
     }
 
     return false;
+  }
+
+  private function sanitize_input_data($input_data)
+  {
+    $sanitized_data = array();
+
+    foreach ($input_data as $key => $value) {
+      $sanitized_data[$key] = htmlspecialchars(strip_tags($value));
+    }
+
+    return $sanitized_data;
+  }
+
+  private function validate_input_fields($fields, $allowed_fields)
+  {
+    foreach ($fields as $field => $value) {
+      if (!in_array($field, $allowed_fields)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

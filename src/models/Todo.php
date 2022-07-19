@@ -53,6 +53,11 @@ class Todo
     $stmt = $this->connection->prepare($query);
 
     $sanitized_data = $this->sanitize_input_data($data);
+
+    if (count($sanitized_data) <= 1) {
+      return false;
+    }
+
     $fields_are_valid = $this->validate_input_fields($sanitized_data, $allowed_fields);
 
     if (!$fields_are_valid) {
@@ -72,14 +77,25 @@ class Todo
       0 => 'id',
       1 => 'body',
       2 => 'status',
-      3 => 'assigned_to'
+      3 => 'assigned'
     ];
 
-    $query = "UPDATE {$this->table} SET status = :status WHERE id = :id";
+    $body_field = isset($data->body) ? 'body = :body' : '';
+    $status_field = isset($data->status) ? 'status = :status' : '';
+    $assigned_field = isset($data->assigned) ? 'assigned_to = :assigned' : '';
+
+    $query = "UPDATE {$this->table}
+    SET {$body_field} {$status_field} {$assigned_field}
+    WHERE id = :id";
 
     $stmt = $this->connection->prepare($query);
 
     $sanitized_data = $this->sanitize_input_data($data);
+
+    if (count($sanitized_data) <= 1) {
+      return false;
+    }
+
     $fields_are_valid = $this->validate_input_fields($sanitized_data, $allowed_fields);
 
     if (!$fields_are_valid) {

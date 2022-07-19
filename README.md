@@ -11,7 +11,11 @@ Uses [XAMPP](https://www.apachefriends.org/) Apache distribution that includes M
 
 For development with hot reloading, uses the [VSCode Live Server extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) in conjunction with the [Live Server web extension](https://chrome.google.com/webstore/detail/live-server-web-extension/fiegdmejfepffgpnejdinekhfieaogmj?hl=en-US).
 
-To connect to the database, credentials are provided through environment variables.
+To connect to the database, credentials are provided through environment variables to `src/api/config/Database.php` as well as `src/api/models/Todo.php`
 
+## Testing
+Uses [phpunit](https://phpunit.de/) for basic unit testing.
+
+Run `make run-tests` to run all tests in `test/` directory.
 ## Usage
-All requests can be made to `http://localhost/php-rest-todos/api/*.php`
+All requests can be made to `http://localhost/php-rest-todos/src/api/*.php`

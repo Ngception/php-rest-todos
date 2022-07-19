@@ -1,0 +1,17 @@
+{
+    "name": "ngdustry/php-rest-todos",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ngdustry\\PhpRestTodos\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ngdustry"
+        }
+    ],
+    "require": {}
+}

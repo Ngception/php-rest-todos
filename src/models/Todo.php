@@ -1,5 +1,7 @@
 <?php
 
+namespace PhpRestTodos\Models;
+
 class Todo
 {
   private $connection;

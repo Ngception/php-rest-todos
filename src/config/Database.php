@@ -1,5 +1,9 @@
 <?php
 
+namespace PhpRestTodos\Config;
+
+use PDO, PDOException;
+
 class Database
 {
   private $connection;

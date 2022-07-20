@@ -4,7 +4,7 @@
 
 A learning exercise in writting a basic REST API using PHP as a beginner without any libraries or frameworks.
 
-Currently, performs basic CRUD operations to fetch, update, and delete.
+Currently, performs basic CRUD operations to create, fetch, update, and delete.
 
 ## Setup
 Uses [XAMPP](https://www.apachefriends.org/) Apache distribution that includes MariaDB, PHP, and Perl.

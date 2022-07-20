@@ -1,12 +1,14 @@
 <?php
 
+require '../../vendor/autoload.php';
+
+use PhpRestTodos\Config\Database;
+use PhpRestTodos\Models\Todo;
+
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: PATCH');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-With');
-
-include_once '../config/Database.php';
-include_once '../models/Todo.php';
 
 $database = new Database();
 $db = $database->connect();

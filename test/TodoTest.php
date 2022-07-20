@@ -1,9 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-
-require 'src/config/Database.php';
-require 'src/models/Todo.php';
+use PhpRestTodos\Models\Todo;
 
 class TodoTest extends TestCase
 {
